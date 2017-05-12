@@ -63,6 +63,7 @@ if (!function_exists('ob_get_clean')) {
 }
 
 if (!function_exists('ob_get_clean')) {
+
 function gzdecode($data) {
     $len = strlen($data);
     if ($len < 18 || strcmp(substr($data, 0, 2), "\x1f\x8b")) {
@@ -182,16 +183,25 @@ function gzdecode($data) {
     return $data;
 }
 
+    if (version_compare(phpversion(), "5", "<")) {
+        function serialize_fix($v) {
+            return str_replace('O:11:"phprpc_date":7:{', 'O:11:"PHPRPC_Date":7:{', serialize($v));
+        }
+    }else {
+        function serialize_fix($v) {
+            return serialize($v);
+        }
+    }
+}
+
 if (version_compare(phpversion(), "5", "<")) {
     function serialize_fix($v) {
         return str_replace('O:11:"phprpc_date":7:{', 'O:11:"PHPRPC_Date":7:{', serialize($v));
     }
-}
-else {
+}else {
     function serialize_fix($v) {
         return serialize($v);
     }
-}
 }
 
 function declare_empty_class($classname) {
