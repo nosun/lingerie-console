@@ -26,6 +26,11 @@ class Communication_Model extends Common_Model
 		return $dbContactor->updateOrder($updateData, $onumber);
 	}
 
+	public function uploadImage($site_pid,$fileDir, $target_url, $targetDir, $siteInfo){
+		$dbContactor = Site_API_Model::getInstance('Site_'.$siteInfo->codebase .'_Model', $siteInfo->name, $siteInfo->url);
+		return $dbContactor->uploadImage($site_pid, $fileDir, $target_url, $targetDir);
+	}
+
 	public function updateOrderAddress($onumber, $newData, $siteInfo) {
 	    $dbContactor = Site_API_Model::getInstance('Site_'.$siteInfo->codebase .'_Model', $siteInfo->name, $siteInfo->url);
 	    return $dbContactor->updateOrderAddress($onumber, $newData);
